@@ -213,13 +213,21 @@ document.querySelectorAll('.stat-item, .about-content p').forEach(el => {
         wrapper.removeEventListener('touchend', onDragEnd);
     }
     
-    // Block navigation if user was dragging
+    // Block navigation if user was dragging (mouse)
     wrapper.addEventListener('click', (e) => {
-        if (dragDistance > 8) {
+        if (dragDistance > 20) {
             e.preventDefault();
             e.stopPropagation();
         }
         dragDistance = 0;
+    }, true);
+
+    // Touch: navigasi langsung jika bukan drag
+    wrapper.addEventListener('touchend', (e) => {
+        if (dragDistance < 20) {
+            const card = e.target.closest('a.service-card');
+            if (card) window.location.href = card.getAttribute('href');
+        }
     }, true);
     
     wrapper.addEventListener('mousedown', onDragStart);
