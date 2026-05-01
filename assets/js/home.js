@@ -159,10 +159,12 @@ document.querySelectorAll('.stat-item, .about-content p').forEach(el => {
     }
     
     // Drag handlers
+    let dragDistance = 0;
     function onDragStart(e) {
         if (autoSlideInterval) stopAutoSlide();
         isDragging = true;
         isPaused = true;
+        dragDistance = 0;
         startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
         currentTranslate = -currentIndex * getCardWidth();
         track.style.transition = 'none';
@@ -177,6 +179,7 @@ document.querySelectorAll('.stat-item, .about-content p').forEach(el => {
         if (!isDragging) return;
         const x = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
         const delta = x - startX;
+        dragDistance = Math.abs(delta);
         let newTranslate = currentTranslate + delta;
         track.style.transform = `translateX(${newTranslate}px)`;
     }
@@ -209,6 +212,15 @@ document.querySelectorAll('.stat-item, .about-content p').forEach(el => {
         wrapper.removeEventListener('touchmove', onDragMove);
         wrapper.removeEventListener('touchend', onDragEnd);
     }
+    
+    // Block navigation if user was dragging
+    wrapper.addEventListener('click', (e) => {
+        if (dragDistance > 8) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        dragDistance = 0;
+    }, true);
     
     wrapper.addEventListener('mousedown', onDragStart);
     wrapper.addEventListener('touchstart', onDragStart, { passive: false });
