@@ -144,7 +144,7 @@
         .stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-top: 8px; }
 
         /* GALLERY SLIDER */
-        .gallery-section { background: var(--dark); padding: 120px 0 60px; }
+        .gallery-section { background: var(--dark); padding: 100px 0 80px; }
         .gallery-header { padding: 0 60px; margin-bottom: 50px; }
         .gallery-header .section-label { font-size: 18px; letter-spacing: 8px; font-weight: 500; }
         .gallery-header h2 {
@@ -158,29 +158,30 @@
         .slider-wrapper { overflow: hidden; }
         .slider-track {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             cursor: grab;
             user-select: none;
-            padding: 0 60px;
+            padding: 0 60px 20px;
         }
         .slider-track::-webkit-scrollbar { display: none; }
         .slider-track.dragging { cursor: grabbing; }
         .slider-track img {
-            flex: 0 0 calc(55% - 6px);
-            height: 500px;
+            flex: 0 0 calc(40% - 8px);
+            height: 520px;
             object-fit: cover;
+            object-position: center;
             scroll-snap-align: start;
-            border-radius: 2px;
-            filter: brightness(0.85);
-            transition: filter 0.4s;
+            border-radius: 4px;
+            filter: brightness(0.9);
+            transition: filter 0.4s, transform 0.4s;
             pointer-events: none;
             user-select: none;
         }
-        .slider-track img:hover { filter: brightness(1); }
+        .slider-track img:hover { filter: brightness(1); transform: scale(1.01); }
         .slider-hint { padding: 16px 60px 0; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: rgba(184,152,90,0.4); }
 
         /* OTHER SERVICES */
@@ -196,7 +197,12 @@
             margin-top: 12px;
         }
         .other-services-header h2 em { font-style: italic; color: var(--gold-light); }
-        .other-services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+        /* Desktop: 3 kolom horizontal */
+        .other-services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+        }
         .other-service-card { position: relative; display: block; overflow: hidden; text-decoration: none; }
         .other-service-img { height: 460px; background-size: cover; background-position: center; filter: brightness(0.45); transition: transform 0.8s ease, filter 0.5s ease; }
         .other-service-card:hover .other-service-img { transform: scale(1.06); filter: brightness(0.3); }
@@ -241,6 +247,12 @@
         @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
         /* RESPONSIVE */
+        /* Tablet landscape */
+        @media (max-width: 1100px) {
+            .slider-track img { flex: 0 0 calc(50% - 8px); height: 440px; }
+            .other-service-img { height: 380px; }
+        }
+
         @media (max-width: 900px) {
             header { padding: 14px 24px; }
             .header-nav-right { display: none; }
@@ -264,24 +276,54 @@
             .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 24px; }
             .stat-num { font-size: 38px; }
 
-            .gallery-section { padding: 70px 0; }
-            .gallery-header { padding: 0 20px; margin-bottom: 32px; }
+            /* Gallery - tablet */
+            .gallery-section { padding: 70px 0 60px; }
+            .gallery-header { padding: 0 24px; margin-bottom: 32px; }
             .gallery-header h2 { font-size: clamp(28px, 7vw, 40px); }
             .slider-wrapper { padding: 0; }
-            .slider-track { padding: 0 20px; }
-            .slider-track img { flex: 0 0 82vw; height: 280px; }
-            .slider-hint { padding: 14px 20px 0; }
+            .slider-track { padding: 0 24px 16px; gap: 12px; }
+            .slider-track img { flex: 0 0 72vw; height: 360px; }
+            .slider-hint { padding: 14px 24px 0; }
 
-            .other-services-section { padding: 70px 20px; }
+            /* Other Services - tablet: tetap 3 kolom tapi lebih kecil */
+            .other-services-section { padding: 60px 24px 80px; }
             .other-services-header h2 { font-size: clamp(28px, 7vw, 40px); }
-            .other-services-grid { grid-template-columns: 1fr; }
-            .other-service-img { height: 300px; }
-            .other-service-desc, .other-service-link { opacity: 1; transform: none; }
+            .other-services-grid { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+            .other-service-img { height: 320px; }
+            .other-service-info h3 { font-size: 22px; }
+            .other-service-desc { font-size: 12px; }
 
             .cta-section { padding: 80px 20px; }
             .cta-section h2 { font-size: clamp(28px, 7vw, 40px); }
             footer { padding: 40px 20px; }
         }
+
+        @media (max-width: 640px) {
+            /* Gallery - mobile */
+            .slider-track img { flex: 0 0 85vw; height: 300px; }
+
+            /* Other Services - mobile: slider horizontal */
+            .other-services-section { padding: 60px 0 80px; }
+            .other-services-header { padding: 0 20px; }
+            .other-services-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 3px;
+                padding: 0 20px 16px;
+            }
+            .other-services-grid::-webkit-scrollbar { display: none; }
+            .other-service-card {
+                flex: 0 0 80vw;
+                scroll-snap-align: start;
+            }
+            .other-service-img { height: 380px; }
+            .other-service-info h3 { font-size: 26px; }
+            .other-service-desc { font-size: 13px; }
+        }
+
         @media (max-width: 480px) {
             .hero h1 { font-size: clamp(38px, 12vw, 58px); }
             .section-label { font-size: 11px; letter-spacing: 4px; }
@@ -291,4 +333,7 @@
             .gallery-header h2,
             .other-services-header h2,
             .cta-section h2 { font-size: clamp(26px, 9vw, 36px); }
+            .slider-track img { flex: 0 0 88vw; height: 260px; }
+            .other-service-card { flex: 0 0 85vw; }
+            .other-service-img { height: 340px; }
         }
